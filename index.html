@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Celebramos 1 Mes de VRConecta!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Estilos personalizados para las animaciones de confeti */
+      @keyframes confetti-fall {
+        0% {
+          opacity: 0;
+          transform: translateY(-100px) rotate(0deg);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(100vh) rotate(720deg);
+        }
+      }
+
+      .confetti {
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        left: 50%;
+        top: 0;
+        border-radius: 50%;
+        opacity: 0;
+        animation: confetti-fall 5s linear infinite;
+      }
+    </style>
+    <script src="https://unpkg.com/tone"></script>
+    <script>
+      // Inicializa Tone.js al principio del script
+      const synth = new Tone.Synth().toDestination();
+    </script>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen py-10" style="background-color: #feb300;">
+    <div class="bg-white rounded-lg shadow-xl p-8 max-w-2xl w-full text-center" style="background-color: #f9f9f9;">
+        <h1 class="font-bold text-3xl mb-4" style="color: #1c1c1c;" id="celebrate-text">¡Un mes de VRConecta lleno de sorpresas! 🤩</h1>
+        <p class="text-gray-700 text-lg mb-6" style="color: #1c1c1c;">Nuevos Recommenders, secciones y mucho más. ¡Entra y celebra el crecimiento de nuestro espacio!</p>
+        <button id="celebrate-button" class="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-full transition duration-300 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-75" style="background-image: linear-gradient(to right, #feb300, #feb300); color: #1c1c1c;">
+            ¡Visita VRConecta!
+        </button>
+    </div>
+
+    <div id="confetti-container" class="fixed inset-0 pointer-events-none">
+        </div>
+
+    <script>
+        window.onload = function() {
+            const container = document.getElementById('confetti-container');
+            const celebrateButton = document.getElementById('celebrate-button');
+            const confettiColors = ['#feb300', '#1c1c1c', '#f9f9f9', '#a249a8', '#68b8de'];
+            let confettiInterval;
+            let durationTimeout;
+            //const synth = new Tone.Synth().toDestination();
+
+            // Función para crear el confeti
+            function createConfetti(numConfetti) {
+                for (let i = 0; i < numConfetti; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.width = `${Math.random() * 10 + 5}px`;
+                    confetti.style.height = `${Math.random() * 10 + 5}px`;
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                    confetti.style.animationDelay = `${Math.random() * 5}s`;
+                    container.appendChild(confetti);
+                }
+            }
+
+            celebrateButton.addEventListener('click', () => {
+                createConfetti(20);
+                confettiInterval = setInterval(() => createConfetti(5), 500);
+
+                // Reproduce el sonido de estallido
+                // Aquí debes usar el archivo de sonido que descargaste
+                const audio = new Audio('confetti.mp3'); // Reemplaza con la URL de tu archivo de sonido
+                audio.play();
+
+                durationTimeout = setTimeout(() => {
+                    clearInterval(confettiInterval);
+                    confettiInterval = null;
+                }, 5000);
+            });
+        };
+    </script>
+</body>
+</html>
